@@ -32,7 +32,7 @@ export default function Work() {
         description:
           "Secure, responsive expense tracker with API integration and production deployment.",
         tags: ["React", "REST API", "Vercel"],
-        link: "#", // put your live link or github link
+        link: "https://splitwise-inspired-expense-tracker.vercel.app/",
       },
       {
         name: "Digital Civix – Petition Platform",
