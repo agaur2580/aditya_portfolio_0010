@@ -1,264 +1,95 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from 'react';
 
-export default function Contact() {
+export default function ContactForm() {
   const [result, setResult] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-
-  // ✅ Scroll animation
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.18 }
-    );
-
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  // ✅ hCaptcha loader (safe: load only once)
-  useEffect(() => {
-    const captchadiv = document.querySelectorAll('[data-captcha="true"]');
-    if (!captchadiv.length) return;
-
-    captchadiv.forEach((item) => {
-      const sitekey = item.dataset.sitekey;
-      if (!sitekey) {
-        item.dataset.sitekey = "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
-      }
-    });
-
-    // prevent adding the script multiple times
-    if (document.querySelector('script[src*="js.hcaptcha.com/1/api.js"]')) return;
-
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.async = true;
-    script.defer = true;
-    script.src = "https://js.hcaptcha.com/1/api.js?recaptchacompat=off";
-    document.body.appendChild(script);
-  }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    setResult("Sending...");
 
-    // hcaptcha response (web3forms expects this)
-    const hCaptcha = event.target.querySelector(
-      'textarea[name="h-captcha-response"]'
-    )?.value;
+    const formData = new FormData(event.target);
+    formData.append("access_key", "34ee5db2-ab29-4c3f-83dc-2a59d9bc1453");
 
-    if (!hCaptcha) {
-      setResult("Please complete the captcha.");
-      return;
-    }
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
 
-    if (!accessKey) {
-      setResult("Missing form configuration. Add VITE_WEB3FORMS_ACCESS_KEY in .env");
-      return;
-    }
+    const data = await response.json();
 
-    setResult("Sending…");
-
-    try {
-      const formData = new FormData(event.target);
-      formData.append("access_key", accessKey);
-
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      }).then((r) => r.json());
-
-      if (res.success) {
-        setResult("✅ Message sent successfully. I’ll reply soon!");
-        event.target.reset();
-      } else {
-        setResult(res.message || "Something went wrong. Please try again.");
-      }
-    } catch (err) {
-      setResult("Network error. Please try again.");
+    if (data.success) {
+      setResult("✅ Message sent successfully. I will reply soon!");
+      event.target.reset();
+    } else {
+      setResult(data.message || "❌ Something went wrong. Please try again.");
     }
   };
 
   return (
-    <section
-      id="contact"
-      ref={sectionRef}
-      className="relative w-full px-[8%] sm:px-[12%] py-20 scroll-mt-20 overflow-hidden"
-    >
-      {/* ✅ Animated gradient background */}
-      <div className="absolute inset-0 -z-10 animate-gradient bg-gradient-to-r from-purple-600/30 via-pink-500/25 to-cyan-500/25" />
-      <div className="absolute inset-0 -z-10 backdrop-blur-[2px]" />
+    <section className="relative overflow-hidden bg-slate-950 text-white py-20 px-6 sm:px-10 lg:px-16" id="contact">
+      <div className="pointer-events-none absolute -top-16 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-cyan-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-16 top-20 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-16 left-1/4 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl" />
 
-      {/* ✅ Floating blobs */}
-      <div className="pointer-events-none absolute -top-16 -left-16 h-56 w-56 rounded-full bg-white/10 blur-2xl animate-floatSlow" />
-      <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-white/10 blur-2xl animate-floatSlow2" />
+      <div className="mx-auto max-w-3xl relative">
+        <div className="mb-10 text-center">
+          <p className="text-sm uppercase tracking-[0.3em] text-cyan-300/80">Contact</p>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-semibold">Send a message</h2>
+          <p className="mt-4 text-slate-300">
+            Want to collaborate or ask a question? Fill out the form below and I&apos;ll get back to you quickly.
+          </p>
+        </div>
 
-      <div
-        className={[
-          "transition-all duration-700",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
-        ].join(" ")}
-      >
-        <h4 className="text-center mb-2 text-lg font-Ovo text-gray-700 dark:text-white/80">
-          Connect with me
-        </h4>
-
-        <h2 className="text-center text-4xl sm:text-5xl font-Ovo text-gray-900 dark:text-white">
-          Get in Touch
-        </h2>
-
-        <p className="text-center max-w-2xl mx-auto mt-5 mb-12 font-Ovo text-gray-700 dark:text-white/80">
-          Have a project, internship, or role in mind? Send a message and I’ll get back to you.
-          <span className="font-semibold text-green-500"> Remotely available</span>.
-        </p>
-
-        {/* ✅ Glass form container */}
-        <div className="max-w-2xl mx-auto glass-panel p-8 sm:p-10">
-          <form onSubmit={onSubmit}>
-            <input
-              type="hidden"
-              name="subject"
-              value="Aditya Singh Gaur Portfolio - New Form Submission"
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2 mb-6">
+        <form onSubmit={onSubmit} className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-slate-950/40 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-cyan-400/20">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="block">
+              <span className="text-sm text-slate-300">Name</span>
               <input
                 type="text"
-                placeholder="Your name"
-                className="input-glass"
-                required
                 name="name"
+                required
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
+                placeholder="Your name"
               />
+            </label>
 
+            <label className="block">
+              <span className="text-sm text-slate-300">Email</span>
               <input
                 type="email"
-                placeholder="Your email"
-                className="input-glass"
-                required
                 name="email"
+                required
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
+                placeholder="your@email.com"
               />
-            </div>
+            </label>
+          </div>
 
+          <label className="mt-4 block">
+            <span className="text-sm text-slate-300">Message</span>
             <textarea
-              rows="6"
-              placeholder="Your message"
-              className="input-glass resize-none"
-              required
               name="message"
-            ></textarea>
+              required
+              rows="6"
+              className="mt-2 w-full rounded-3xl border border-white/10 bg-slate-900/80 px-4 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
+              placeholder="Write your message..."
+            />
+          </label>
 
-            {/* Captcha */}
-            <div className="h-captcha mt-6 mb-6 max-w-full" data-captcha="true"></div>
+          <button
+            type="submit"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-base font-semibold text-slate-950 transition duration-300 hover:scale-[1.01] hover:shadow-[0_20px_60px_-30px_rgba(34,211,238,0.7)] focus:outline-none focus:ring-2 focus:ring-cyan-300/50"
+          >
+            Submit Form
+          </button>
 
-            <button
-              type="submit"
-              className="mx-auto mt-2 flex items-center justify-center gap-2 rounded-full px-8 py-2.5 text-white bg-gradient-to-r from-[#b820e6] to-[#da7d20] hover:opacity-95 transition shadow-lg shadow-black/10"
-            >
-              Submit Message
-              <img src="./assets/right-arrow-white.png" alt="" className="w-4" />
-            </button>
-
-            {/* Result */}
-            {result && (
-              <p className="mt-5 text-center text-sm text-gray-800 dark:text-white/80">
-                {result}
-              </p>
-            )}
-          </form>
-        </div>
+          {result && (
+            <p className="mt-4 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-center text-sm text-slate-100">
+              {result}
+            </p>
+          )}
+        </form>
       </div>
-
-      {/* ✅ Local styles for glass + gradient + floating blobs */}
-      <style>{`
-        .animate-gradient{
-          background-size: 200% 200%;
-          animation: gradientMove 10s ease infinite;
-        }
-        @keyframes gradientMove{
-          0%{ background-position: 0% 50%; }
-          50%{ background-position: 100% 50%; }
-          100%{ background-position: 0% 50%; }
-        }
-
-        .glass-panel{
-          border-radius: 24px;
-          background: rgba(255,255,255,0.10);
-          border: 1px solid rgba(255,255,255,0.18);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-        }
-
-        .input-glass{
-          width: 100%;
-          padding: 12px 14px;
-          border-radius: 14px;
-          outline: none;
-          background: rgba(255,255,255,0.10);
-          border: 1px solid rgba(255,255,255,0.18);
-          color: rgba(17,24,39,0.95);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          transition: 200ms ease;
-        }
-        :global(.dark) .input-glass{
-          color: rgba(255,255,255,0.90);
-        }
-        .input-glass::placeholder{
-          color: rgba(17,24,39,0.65);
-        }
-        :global(.dark) .input-glass::placeholder{
-          color: rgba(255,255,255,0.65);
-        }
-        .input-glass:focus{
-          transform: translateY(-1px);
-          box-shadow: 0 12px 35px rgba(0,0,0,0.12);
-          border-color: rgba(255,255,255,0.35);
-        }
-
-        .pill-link{
-          padding: 10px 14px;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.10);
-          border: 1px solid rgba(255,255,255,0.18);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          transition: 200ms ease;
-          color: rgba(17,24,39,0.85);
-          text-align: center;
-        }
-        :global(.dark) .pill-link{
-          color: rgba(255,255,255,0.85);
-        }
-        .pill-link:hover{
-          transform: translateY(-2px);
-          background: rgba(255,255,255,0.14);
-        }
-
-        .animate-floatSlow{
-          animation: floatSlow 8s ease-in-out infinite;
-        }
-        .animate-floatSlow2{
-          animation: floatSlow2 10s ease-in-out infinite;
-        }
-        @keyframes floatSlow{
-          0%,100%{ transform: translate(0,0); }
-          50%{ transform: translate(18px, 14px); }
-        }
-        @keyframes floatSlow2{
-          0%,100%{ transform: translate(0,0); }
-          50%{ transform: translate(-16px, -10px); }
-        }
-      `}</style>
     </section>
   );
 }

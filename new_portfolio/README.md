@@ -27,7 +27,7 @@ npm run preview
 
 The contact form uses Web3Forms with hCaptcha.
 
-1. Create a `.env` file in `new_portfolio/`
+1. Copy `.env.example` to `.env` in `new_portfolio/`
 2. Add your key:
 
 ```bash

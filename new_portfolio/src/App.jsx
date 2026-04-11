@@ -1,4 +1,4 @@
-import Contact from './components/Contact'
+import ContactForm from './components/Contact'
 import Footer from './components/Footer'
 import Work from './components/Work'
 import Services from './components/Services'
@@ -18,7 +18,7 @@ export default function App() {
             <Skill />
             <Services />
             <Work />
-            <Contact />
+            <ContactForm />
             <Footer />
           
         </>
