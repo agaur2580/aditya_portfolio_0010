@@ -1,3 +1,187 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bg: #f3efe6;
+  --bg-2: #eae4d8;
+  --fg: #111111;
+  --muted: #5d5a53;
+  --line: rgba(17, 17, 17, 0.12);
+  --accent: #c8f542;
+  --accent-ink: #111111;
+  --card: rgba(255, 255, 255, 0.55);
+  --mx: 50%;
+  --my: 20%;
+}
+
+.dark {
+  --bg: #070708;
+  --bg-2: #101012;
+  --fg: #f4f0e6;
+  --muted: #a9a59c;
+  --line: rgba(244, 240, 230, 0.12);
+  --accent: #d4ff4a;
+  --accent-ink: #111111;
+  --card: rgba(255, 255, 255, 0.04);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
+  }
+
+  html,
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    font-family: Outfit, ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.6;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  button,
+  a {
+    touch-action: manipulation;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+}
+
+@layer components {
+  .section-pad {
+    @apply relative w-full px-4 sm:px-8 lg:px-12 xl:px-20 py-20 sm:py-24 lg:py-32 scroll-mt-24 overflow-hidden;
+  }
+
+  .display {
+    font-family: Syne, Outfit, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.92;
+  }
+
+  .eyebrow {
+    @apply text-[11px] sm:text-xs uppercase tracking-[0.28em] font-medium;
+    color: var(--muted);
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .hairline {
+    border-color: var(--line);
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-transform duration-300;
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .btn-accent:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold border transition-colors duration-300;
+    border-color: var(--line);
+    color: var(--fg);
+  }
+
+  .btn-ghost:hover {
+    background: color-mix(in srgb, var(--fg) 6%, transparent);
+  }
+
+  .surface {
+    background: var(--card);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(18px);
+  }
+}
+
+.site-noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.site-spotlight {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    650px circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--accent) 16%, transparent),
+    transparent 42%
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+}

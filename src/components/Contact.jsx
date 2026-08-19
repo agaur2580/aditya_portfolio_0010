@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function ContactForm() {
   const [result, setResult] = useState("");
@@ -18,76 +18,61 @@ export default function ContactForm() {
     const data = await response.json();
 
     if (data.success) {
-      setResult("✅ Message sent successfully. I will reply soon!");
+      setResult("Message sent. I will reply soon.");
       event.target.reset();
     } else {
-      setResult(data.message || "❌ Something went wrong. Please try again.");
+      setResult(data.message || "Something went wrong. Please try again.");
     }
   };
 
-  return (
-    <section className="relative overflow-hidden bg-slate-950 text-white py-20 px-6 sm:px-10 lg:px-16" id="contact">
-      <div className="pointer-events-none absolute -top-16 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-cyan-500/20 blur-3xl" />
-      <div className="pointer-events-none absolute -right-16 top-20 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-16 left-1/4 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl" />
+  const field =
+    "mt-2 w-full rounded-2xl border hairline bg-transparent px-4 py-3 outline-none transition focus:border-[var(--accent)]";
 
-      <div className="mx-auto max-w-3xl relative">
-        <div className="mb-10 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-300/80">Contact</p>
-          <h2 className="mt-3 text-3xl sm:text-4xl font-semibold">Send a message</h2>
-          <p className="mt-4 text-slate-300">
-            Want to collaborate or ask a question? Fill out the form below and I&apos;ll get back to you quickly.
+  return (
+    <section id="contact" className="section-pad">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <div>
+          <p className="eyebrow">05 — Contact</p>
+          <h2 className="display text-4xl sm:text-5xl lg:text-7xl mt-3">
+            Let&apos;s make
+            <br />
+            something sharp.
+          </h2>
+          <p className="mt-6 muted max-w-md">
+            Open to internships, freelance, and full-time frontend roles. Remotely available.
           </p>
+          <a href="mailto:agaur4348@gmail.com" className="display text-xl sm:text-2xl mt-10 inline-block underline-offset-4 hover:underline">
+            agaur4348@gmail.com
+          </a>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="https://github.com/agaur2580" target="_blank" rel="noopener noreferrer" className="btn-ghost !py-2">
+              GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/psitaditya0010/" target="_blank" rel="noopener noreferrer" className="btn-ghost !py-2">
+              LinkedIn
+            </a>
+          </div>
         </div>
 
-        <form onSubmit={onSubmit} className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-slate-950/40 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-cyan-400/20">
+        <form onSubmit={onSubmit} className="surface rounded-[1.75rem] p-5 sm:p-8">
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block">
-              <span className="text-sm text-slate-300">Name</span>
-              <input
-                type="text"
-                name="name"
-                required
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
-                placeholder="Your name"
-              />
+            <label className="block text-sm">
+              Name
+              <input type="text" name="name" required className={field} placeholder="Your name" />
             </label>
-
-            <label className="block">
-              <span className="text-sm text-slate-300">Email</span>
-              <input
-                type="email"
-                name="email"
-                required
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
-                placeholder="your@email.com"
-              />
+            <label className="block text-sm">
+              Email
+              <input type="email" name="email" required className={field} placeholder="you@email.com" />
             </label>
           </div>
-
-          <label className="mt-4 block">
-            <span className="text-sm text-slate-300">Message</span>
-            <textarea
-              name="message"
-              required
-              rows="6"
-              className="mt-2 w-full rounded-3xl border border-white/10 bg-slate-900/80 px-4 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
-              placeholder="Write your message..."
-            />
+          <label className="mt-4 block text-sm">
+            Message
+            <textarea name="message" required rows="5" className={`${field} rounded-3xl`} placeholder="Tell me about the role or project..." />
           </label>
-
-          <button
-            type="submit"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-base font-semibold text-slate-950 transition duration-300 hover:scale-[1.01] hover:shadow-[0_20px_60px_-30px_rgba(34,211,238,0.7)] focus:outline-none focus:ring-2 focus:ring-cyan-300/50"
-          >
-            Submit Form
+          <button type="submit" className="btn-accent mt-6 w-full">
+            Send message
           </button>
-
-          {result && (
-            <p className="mt-4 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-center text-sm text-slate-100">
-              {result}
-            </p>
-          )}
+          {result && <p className="mt-4 text-sm muted text-center">{result}</p>}
         </form>
       </div>
     </section>

@@ -7,20 +7,21 @@ import Header from './components/Header'
 import Navbar from './components/Navbar'
 import LenisScroll from './components/LenisScroll'
 import Skill from './components/Skill'
+import SiteFx from './components/SiteFx'
 
 export default function App() {
     return (
         <>
             <LenisScroll />
+            <SiteFx />
             <Navbar />
             <Header />
             <About />
+            <Work />
             <Skill />
             <Services />
-            <Work />
             <ContactForm />
             <Footer />
-          
         </>
     )
 }
