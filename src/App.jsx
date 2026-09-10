@@ -8,7 +8,7 @@ import Navbar from './components/Navbar'
 import LenisScroll from './components/LenisScroll'
 import Skill from './components/Skill'
 import SiteFx from './components/SiteFx'
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 export default function App() {
     return (
