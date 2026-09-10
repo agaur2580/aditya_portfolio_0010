@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import LenisScroll from './components/LenisScroll'
 import Skill from './components/Skill'
 import SiteFx from './components/SiteFx'
+import { Analytics } from "@vercel/analytics/next"
 
 export default function App() {
     return (
@@ -22,6 +23,7 @@ export default function App() {
             <Services />
             <ContactForm />
             <Footer />
+            <Analytics/>
         </>
     )
 }
