@@ -44,10 +44,10 @@ export default function Header() {
                 <span className="h-1.5 w-1.5 rounded-full bg-black animate-pulse" />
                 Available for work
               </span>
-              <span className="eyebrow">Kanpur, India</span>
+              <span className="eyebrow">India</span>
             </div>
 
-            <p className="eyebrow mb-4">Frontend Developer</p>
+            <p className="eyebrow mb-4">Full Stack Developer</p>
             <h1 className="display text-[18vw] sm:text-[12vw] lg:text-[7.4vw] xl:text-[6.6rem]">
               Aditya
               <br />
@@ -55,7 +55,7 @@ export default function Header() {
             </h1>
 
             <p className="mt-8 max-w-xl text-base sm:text-lg muted leading-relaxed">
-              I design and ship interfaces that feel fast, considered, and a little unforgettable —
+              I design and ship interfaces that feel fast, considered, and a little unforgettable 
               React, modern CSS, and production-ready engineering.
             </p>
 

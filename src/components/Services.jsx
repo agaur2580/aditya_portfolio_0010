@@ -27,15 +27,27 @@ export default function Services() {
     },
     {
       num: "02",
+      name: "Backend & API development",
+      description:
+        "Node.js services and RESTful APIs with JWT/OAuth auth, built for scalable, reliable data handling.",
+    },
+    {
+      num: "03",
+      name: "Database design",
+      description:
+        "Schema design and querying across MySQL and MongoDB — data modeled to match how the product actually uses it.",
+    },
+    {
+      num: "04",
       name: "UI implementation",
       description:
         "Pixel-faithful, accessible builds from Figma — motion, spacing, and typography treated as part of the product.",
     },
     {
-      num: "03",
-      name: "API integration",
+      num: "05",
+      name: "Full-stack integration",
       description:
-        "REST flows, auth, and state that stay predictable — the UI never becomes a dump of loading spinners.",
+        "Frontend, backend, and database working as one system — REST flows, auth, and state that stay predictable end to end.",
     },
   ];
 

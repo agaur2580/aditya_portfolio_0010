@@ -28,7 +28,7 @@ export default function Work() {
         type: "React · Node · AI · Vercel",
         cover: "./assets/work-1.png",
         description:
-          "An AI-powered expense sharing web app for splitting bills, tracking group spends, and sending reminders — built for real use, not just a demo.",
+          "An AI-powered expense sharing web app for splitting bills, tracking group spends, and sending reminders built for real use, not just a demo.",
         tags: ["React", "AI", "REST API", "Vercel"],
         link: "https://splitwise-inspired-expense-tracker.vercel.app/",
         featured: true,

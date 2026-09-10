@@ -8,7 +8,6 @@ export default function Skill() {
         skills: [
           { name: "JavaScript (ES6+)", level: 85 },
           { name: "Java", level: 80 },
-          { name: "Python", level: 70 },
         ],
       },
       {
@@ -21,12 +20,28 @@ export default function Skill() {
         ],
       },
       {
-        title: "Data & tools",
+        title: "Backend & APIs",
         skills: [
-          { name: "SQL / MongoDB", level: 74 },
+          { name: "Node.js", level: 70 },
+          { name: "REST API Development", level: 78 },
+          { name: "JWT / OAuth", level: 68 },
+        ],
+      },
+      {
+        title: "Database & tools",
+        skills: [
+          { name: "MySQL", level: 75 },
+          { name: "MongoDB", level: 74 },
           { name: "Git & GitHub", level: 80 },
           { name: "Postman", level: 72 },
-          { name: "Figma / Vercel", level: 70 },
+        ],
+      },
+      {
+        title: "Cloud & DevOps",
+        skills: [
+          { name: "CI/CD", level: 65 },
+          { name: "ASP.NET", level: 60 },
+          { name: "GitHub Automation", level: 68 },
         ],
       },
     ],
@@ -41,6 +56,8 @@ export default function Skill() {
       { name: "Postman", icon: "./assets/postman.png" },
       { name: "Figma", icon: "./assets/figma.png" },
       { name: "MongoDB", icon: "./assets/mongodb.png" },
+      { name: "Node.js", icon: "./assets/nodejs.png" },
+      { name: "MySQL", icon: "./assets/mysql.png" },
     ],
     []
   );
@@ -75,7 +92,7 @@ export default function Skill() {
         </h2>
       </div>
 
-      <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {skillCategories.map((category, i) => (
           <div
             key={category.title}
